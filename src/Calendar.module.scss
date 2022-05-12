@@ -1,0 +1,139 @@
+$calendarWidth: 610px;
+$calendarHeight: 280px;
+$inputHeight: 30px;
+$inputWidth: 400px;
+$boldBorder: #9e9e9e;
+$thinBorder: #d7d7d7;
+$oddBackground: #f9f9fb;
+
+@mixin colored-cell {
+  padding-inline: 5px;
+  padding-block: 3px;
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.input {
+  height: $inputHeight;
+  width: $inputWidth;
+}
+
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 200px repeat(1fr, 7);
+}
+
+.calendar {
+  position: absolute;
+  background-color: #fefefe;
+  width: $calendarWidth;
+  height: $calendarHeight;
+  bottom: $inputHeight;
+  left: calc($inputWidth / 2 - $calendarWidth / 2);
+  border: 0.5px solid #dadada;
+
+  &Header {
+    display: flex;
+    width: calc($calendarWidth);
+
+    & div:first-child {
+      text-align: left;
+      align-self: flex-end;
+      height: auto;
+      flex-grow: 0;
+      width: 61px;
+      font-size: 12px;
+      padding-inline: 8px;
+      border-bottom: 1px solid $boldBorder;
+      padding-bottom: 8px;
+    }
+
+    & div:not(:first-child) {
+      font-size: 12px;
+      flex-grow: 0;
+      padding-left: 5px;
+      border-bottom: 1px solid $boldBorder;
+      border-left: 1px solid $thinBorder;
+      padding-bottom: 8px;
+      width: 76px;
+
+      &:nth-child(2n) {
+        background-color: $oddBackground;
+      }
+
+      & span {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &Body {
+    display: grid;
+    grid-template-columns: 61px repeat(7, 76px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: calc($calendarHeight - 45px);
+    width: calc($calendarWidth);
+
+    &Left {
+      font-weight: 600;
+      font-size: 12px;
+      border-right: 1px solid $thinBorder;
+      &:not(:first-child) {
+        border-top: 1px solid $thinBorder;
+      }
+      padding-left: 3px;
+    }
+
+    &Cell {
+      &Hours {
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      &Odd {
+        cursor: pointer;
+        background-color: #f9f9fb;
+
+        &:hover {
+          background-color: #eef6ff;
+        }
+      }
+
+      &Even {
+        cursor: pointer;
+
+        &:hover {
+          background-color: #eef6ff;
+        }
+      }
+
+      &Closed {
+        background-color: #f0f0f0;
+        @include colored-cell();
+      }
+
+      &Break {
+        background-color: #fdf2c6;
+        border-left: 3px solid #f09e12;
+        @include colored-cell();
+      }
+
+      &Reserved {
+        background-color: #ffd9b6;
+        border-left: 3px solid #f17400;
+        @include colored-cell();
+      }
+
+      &Selected {
+        cursor: pointer;
+        background-color: #ddfce6;
+        border-left: 3px solid #40c471;
+        @include colored-cell();
+      }
+    }
+  }
+}
